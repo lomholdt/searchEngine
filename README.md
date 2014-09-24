@@ -1,4 +1,4 @@
 searchEngine
 ============
 
-Programming Workshop
+Programming Workshop (Autumn 2014)
