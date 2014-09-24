@@ -3,7 +3,7 @@ import java.io.*;
 /**
  * The SearchCmd class
  * @author Lomholdt
- *
+ * @author Niels
  */
 public class SearchCmd {
 	
