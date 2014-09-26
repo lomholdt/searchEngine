@@ -8,11 +8,13 @@ import java.io.*;
 public class SearchCmd {
 	
 	/**
-	 * The main method
+	 * Main method in the program
 	 * @param args
 	 * @throws IOException
 	 */
 	public static void main(String[] args) throws IOException {
+		
+		
         String name;
 
         // Check that a filename has been given as argument
