@@ -2,6 +2,7 @@ import java.io.*;
 
 /**
  * The SearchCmd class
+ * 
  * @author Lomholdt
  * @author Niels
  */
@@ -15,9 +16,9 @@ public class SearchCmd {
 	public static void main(String[] args) throws IOException {
 		
 		
-        String name;
+        String word;
 
-        // Check that a filename has been given as argument
+        // Check that a fileword has been given as argument
         if (args.length != 1) {
             System.out.println ("Usage: java SearchCmd <datafile>");
             System.exit (1);
@@ -34,14 +35,19 @@ public class SearchCmd {
         System.out.println ("Hit return to exit.");
         while (true) {
             System.out.print ("Search for: ");
-            name = inuser.readLine(); // Read a line from the terminal
-            if (name == null || name.length() == 0) {
+            word = inuser.readLine(); // Read a line from the terminal
+            if (word == null || word.length() == 0) {
                 return;
-            } else if (Searcher.exists (l, name)) {
-                System.out.println ("The word \""+name+"\" has been found.");
-            } else {
-                System.out.println ("The word \""+name+"\" has NOT been found.");
+            } 
+            else {
+            	Searcher.existsOnPage(l, word);
             }
+//            else if (Searcher.exists (l, word)) {
+//                System.out.println ("The word \""+word+"\" has been found.");
+//            }
+//            else {
+//                System.out.println ("The word \""+word+"\" has NOT been found.");
+//            }
         }
     }
 }
