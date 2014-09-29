@@ -18,7 +18,7 @@ public class SearchCmd {
 		
         String word;
 
-        // Check that a fileword has been given as argument
+        // Check that a filename has been given as argument
         if (args.length != 1) {
             System.out.println ("Usage: java SearchCmd <datafile>");
             System.exit (1);

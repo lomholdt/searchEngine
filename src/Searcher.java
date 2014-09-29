@@ -8,7 +8,7 @@ import java.io.*;
  */
 public class Searcher {
 	
-	private static final String PREFIX_STRING = "*PAGE";
+	private static final String PREFIX_STRING = "*PAGE:";
 	
 	/**
 	 * The exists method
@@ -31,8 +31,8 @@ public class Searcher {
     /**
      * The existsOnPage method loops over a HTMLlist and searches
      * for the given PREFIX_STRING. If the prefix is found it is stored
-     * so whenever you find a word, it will print the url to the terminal
-     * where the word was found, but only if the url has not been printed before.
+     * so whenever you find a word, it will print the URL to the terminal
+     * where the word was found, but only if the URL has not been printed before.
      * 
      * @param l a HTMLlist list node
      * @param word a string word to search for
@@ -43,7 +43,7 @@ public class Searcher {
     	
     	while(l != null){
     		if(l.str.startsWith(PREFIX_STRING)){
-    			currentURL = l.str;
+    			currentURL = l.str.substring(PREFIX_STRING.length());
     			isUsed = false;
     		}
     		else if(l.str.equals(word) && !isUsed){
