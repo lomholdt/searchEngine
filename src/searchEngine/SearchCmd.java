@@ -8,7 +8,7 @@ import java.io.*;
 public class SearchCmd {
 	
 	/**
-	 * Main method in the program
+	 * Main method in the program, for running the program.
 	 * 
 	 * @param args
 	 * @throws IOException
