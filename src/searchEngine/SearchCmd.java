@@ -16,7 +16,7 @@ public class SearchCmd {
 	public static void main(String[] args) throws IOException {
         String word;
 
-        // Check that a filename has been given as argument
+        //Check that a filename has been given as argument
         if (args.length != 1) {
             System.out.println("Usage: java SearchCmd <datafile>");
             System.exit(1);
@@ -26,8 +26,7 @@ public class SearchCmd {
         HTMLlist l = Searcher.readHtmlList(args[0]);
 
         // Ask for a word to search
-        BufferedReader inuser =
-            new BufferedReader(new InputStreamReader (System.in));        
+        BufferedReader inuser = new BufferedReader(new InputStreamReader (System.in));        
 
         System.out.println("Hit return to exit.");
         while(true) {
@@ -35,10 +34,26 @@ public class SearchCmd {
             word = inuser.readLine(); // Read a line from the terminal
             if (word == null || word.length() == 0) {
                 return;
-            } 
-            else {
-            	Searcher.existsOnPage(l, word);
             }
+            else{
+            	while (l != null){
+            		System.out.println(l.word);
+            		if (l.word.equals("Vacancies")){
+	            		while(l.urls != null){
+	            			System.out.println(l.urls.url);
+	            			l.urls = l.urls.next; 
+	            		}
+            			
+            		}
+            		l = l.next;
+            	}
+            }
+            
+            
+            
+//            else {
+//            	Searcher.existsOnPage(l, word);
+//            }
 //            else if (Searcher.exists (l, word)) {
 //                System.out.println ("The word \""+word+"\" has been found.");
 //            }

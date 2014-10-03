@@ -5,7 +5,8 @@ package searchEngine;
  *
  */
 public class HTMLlist {
-    String str;
+    String word;
+    URLlist urls;
     HTMLlist next;
     
     /**
@@ -13,8 +14,9 @@ public class HTMLlist {
      * @param s
      * @param n
      */
-    HTMLlist (String s, HTMLlist n) {
-        str = s;
+    HTMLlist (String w, HTMLlist n, URLlist u) {
+        word = w;
+        urls = u;
         next = n;
     }
 }

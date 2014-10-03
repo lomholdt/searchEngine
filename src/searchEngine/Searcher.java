@@ -21,13 +21,33 @@ public class Searcher {
     public static boolean exists(HTMLlist l, String word) {
     	
         while (l != null) {
-            if (l.str.equals(word)) {
+        	//System.out.println("Checking " + l.word);
+            if (l.word != null && l.word.equals(word)) {
                 return true;
             }
             l = l.next;
         }
         return false;
     }
+    
+
+    /**
+     * 
+     * @param l
+     * @param word
+     * @return
+     */
+    public static boolean UrlExists(URLlist l, String url) {
+    	
+        while (l != null) {
+            if (l.url != null && l.url.equals(url)) {
+                return true;
+            }
+            l = l.next;
+        }
+        return false;
+    }
+
     
     /**
      * The existsOnPage method loops over a HTMLlist and searches
@@ -43,11 +63,11 @@ public class Searcher {
     	boolean isUsed = false;
     	
     	while(l != null){
-    		if(l.str.startsWith(PREFIX_STRING)){
-    			currentURL = l.str.substring(PREFIX_STRING.length());
+    		if(l.word.startsWith(PREFIX_STRING)){
+    			currentURL = l.word.substring(PREFIX_STRING.length());
     			isUsed = false;
     		}
-    		else if(l.str.equals(word) && !isUsed){
+    		else if(l.word.equals(word) && !isUsed){
     			System.out.println("Exists on " + currentURL);
     			isUsed = true;
     		}
@@ -62,25 +82,162 @@ public class Searcher {
      * @return A htmllist with the start pointer to the linked list
      * @throws IOException
      */
-    public static HTMLlist readHtmlList(String filename) throws IOException {
-        String name;
-        HTMLlist start, current, tmp;
-
-        // Open the file given as argument
-        BufferedReader infile = new BufferedReader(new FileReader (filename));
-
-        name = infile.readLine(); //Read the first line
-        start = new HTMLlist(name, null);
-        current = start;
-        name = infile.readLine(); // Read the next line
-        while(name != null) {    // Exit if there is none
-            tmp = new HTMLlist(name, null);
-            current.next = tmp;
-            current = tmp;            // Update the linked list
-            name = infile.readLine(); // Read the next line
-        }
-        infile.close(); // Close the file
-
-        return start;
+//    public static HTMLlist readHtmlList(String filename) throws IOException {
+//        String word;
+//        HTMLlist start, current, tmp;
+//
+//        // Open the file given as argument
+//        BufferedReader infile = new BufferedReader(new FileReader (filename));
+//
+//        word = infile.readLine(); //Read the first line
+//        start = new HTMLlist(word, null);
+//        current = start;
+//        word = infile.readLine(); // Read the next line
+//        while(word != null) {    // Exit if there is none
+//            tmp = new HTMLlist(word, null);
+//            current.next = tmp;
+//            current = tmp;            // Update the linked list
+//            word = infile.readLine(); // Read the next line
+//        }
+//        infile.close(); // Close the file
+//
+//        return start;
+//    }
+    
+    /**
+     * The new readHtmlList method
+     * 
+     * @param filename
+     * @return
+     * @throws IOException
+     */
+    public static HTMLlist readHtmlList(String filename) throws IOException{
+    	String line;
+    	URLlist currentUrl, tmpUrl;
+    	HTMLlist start, current, tmp;
+    	
+    	BufferedReader infile = new BufferedReader(new FileReader(filename)); // open the file
+    	line = infile.readLine(); // first line in file
+    	
+    	start = new HTMLlist(null, null, null); // first node pointer
+    	current = start;
+    	currentUrl = new URLlist(null, null); // URLllist pointer
+    	
+    	while (line != null){ // while not end of file
+    		if(line.startsWith(PREFIX_STRING)){ // it's a URL
+    			String url = line.substring(PREFIX_STRING.length()); // remove prefix from URL
+    			if (currentUrl.url == null){
+    				currentUrl.url = url; 
+    			}
+    			else{
+    				currentUrl = new URLlist(url, null); // get new URLlist object ready
+    			}
+    			//System.out.println(currentUrl.url); // TODO Remove this line
+    		}
+    		else{ //  it's a word
+    			HTMLlist test1 = start;
+    			if(!exists(test1, line)){ // it has not been seen before
+    				
+    				// GO TO END OF LIST,
+    				HTMLlist test2 = start;
+    				HTMLlist endOfList = getEndOfList(test2);
+    				
+    				//System.out.println("First run: " + endOfList.word);
+    
+    				// ADD HTMLList
+    				if (current.word == null){ // first run
+    					current.word = line;
+    					tmpUrl = currentUrl;
+    					current.urls = tmpUrl;
+    					
+    					
+    					System.out.println("Current is equal start");
+    				}
+    				else{
+    					// Add current to end of list
+    					tmp = new HTMLlist(line, null, currentUrl);
+    					System.out.println("CurrentURL is: " + currentUrl.url + " added to " + line);
+    					endOfList.next = tmp;
+    					current = tmp;
+    					  
+    					//System.out.println(endOfList.word);
+    				}
+    			}
+    			else{ // it has been seen
+    				System.out.println(line + " already exists... ");
+    				// go to HTMLlist object with the word
+    				HTMLlist test3 = start;
+    				current = getListObjectPosition(test3, line);
+    				System.out.println("WE NEED: " + line);
+    				System.out.println("WERE ON: " + current.word);
+//    				System.out.println(current.word.equals(line) ? "VI ER PÅ DEN RIGTIGE..." : "NEJ NEJ NEJ");
+    				
+    				//System.out.println(current.word);
+    				
+    				if (!UrlExists(current.urls, currentUrl.url)){
+    					// go to end of URL list
+    					URLlist endOfList = getEndOfList(current.urls);
+    					
+    					// add url to the list
+    					tmpUrl = currentUrl;
+    					endOfList.next = tmpUrl;
+    				}
+    			}
+    		}
+    		line = infile.readLine();
+//    		System.out.println(current.word); // TODO Remove this line
+    	}
+    	infile.close();
+    	
+    	return start;
+    	
+    	
     }
+    
+    /**
+     * 
+     * @param front
+     * @return
+     */
+    private static HTMLlist getEndOfList(HTMLlist front){
+    	HTMLlist previous = front;
+    	while(front != null){
+    		previous = front;
+    		front = front.next;
+    	}
+    	return previous;
+    }
+    
+    /**
+     * 
+     * @param front
+     * @return
+     */
+    public static URLlist getEndOfList(URLlist front){
+    	URLlist previous = front;
+    	while(front != null){
+    		previous = front;
+    		front = front.next;
+    	}
+    	return previous;
+    }
+    
+    /**
+     * 
+     * @param front
+     * @param word
+     */
+    public static HTMLlist getListObjectPosition(HTMLlist front, String word){ // FIXME if last object select previous
+    	while(front != null){
+    		if (front.word.equals(word)){
+    			//System.out.println("FOUND IT\n" + front.word);
+    			return front;
+    		}
+    		front = front.next;
+    	}
+    	System.out.println("her må vi ikke komme til");
+    	//return front; // TODO somehow remove this...
+    	return front;
+    }
+
 }
