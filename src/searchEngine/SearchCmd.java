@@ -36,17 +36,7 @@ public class SearchCmd {
                 return;
             }
             else{
-            	while (l != null){
-            		System.out.println(l.word);
-            		if (l.word.equals("Vacancies")){
-	            		while(l.urls != null){
-	            			System.out.println(l.urls.url);
-	            			l.urls = l.urls.next; 
-	            		}
-            			
-            		}
-            		l = l.next;
-            	}
+            	Searcher.getWordUrls(word, l);
             }
             
             

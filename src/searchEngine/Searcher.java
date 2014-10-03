@@ -112,8 +112,8 @@ public class Searcher {
      * @throws IOException
      */
     public static HTMLlist readHtmlList(String filename) throws IOException{
-    	String line;
-    	URLlist currentUrl, tmpUrl;
+    	String line, currentUrl;
+    	URLlist tmpUrl;
     	HTMLlist start, current, tmp;
     	
     	BufferedReader infile = new BufferedReader(new FileReader(filename)); // open the file
@@ -121,18 +121,12 @@ public class Searcher {
     	
     	start = new HTMLlist(null, null, null); // first node pointer
     	current = start;
-    	currentUrl = new URLlist(null, null); // URLllist pointer
+    	currentUrl = "";
     	
     	while (line != null){ // while not end of file
     		if(line.startsWith(PREFIX_STRING)){ // it's a URL
     			String url = line.substring(PREFIX_STRING.length()); // remove prefix from URL
-    			if (currentUrl.url == null){
-    				currentUrl.url = url; 
-    			}
-    			else{
-    				currentUrl = new URLlist(url, null); // get new URLlist object ready
-    			}
-    			//System.out.println(currentUrl.url); // TODO Remove this line
+    			currentUrl = url;
     		}
     		else{ //  it's a word
     			HTMLlist test1 = start;
@@ -140,23 +134,23 @@ public class Searcher {
     				
     				// GO TO END OF LIST,
     				HTMLlist test2 = start;
-    				HTMLlist endOfList = getEndOfList(test2);
     				
     				//System.out.println("First run: " + endOfList.word);
     
     				// ADD HTMLList
     				if (current.word == null){ // first run
     					current.word = line;
-    					tmpUrl = currentUrl;
+    					tmpUrl = new URLlist(currentUrl, null);
     					current.urls = tmpUrl;
     					
     					
-    					System.out.println("Current is equal start");
+//    					System.out.println("Current is equal start");
     				}
     				else{
+    					HTMLlist endOfList = getEndOfList(test2);
+    					tmpUrl = new URLlist(currentUrl, null);
     					// Add current to end of list
-    					tmp = new HTMLlist(line, null, currentUrl);
-    					System.out.println("CurrentURL is: " + currentUrl.url + " added to " + line);
+    					tmp = new HTMLlist(line, null, tmpUrl);
     					endOfList.next = tmp;
     					current = tmp;
     					  
@@ -164,22 +158,19 @@ public class Searcher {
     				}
     			}
     			else{ // it has been seen
-    				System.out.println(line + " already exists... ");
+//    				System.out.println(line + " already exists... ");
     				// go to HTMLlist object with the word
     				HTMLlist test3 = start;
     				current = getListObjectPosition(test3, line);
-    				System.out.println("WE NEED: " + line);
-    				System.out.println("WERE ON: " + current.word);
-//    				System.out.println(current.word.equals(line) ? "VI ER PÅ DEN RIGTIGE..." : "NEJ NEJ NEJ");
+//    				System.out.println("WE NEED: " + line);
+//    				System.out.println("WERE ON: " + current.word);
     				
-    				//System.out.println(current.word);
-    				
-    				if (!UrlExists(current.urls, currentUrl.url)){
+    				if (!UrlExists(current.urls, currentUrl)){
     					// go to end of URL list
     					URLlist endOfList = getEndOfList(current.urls);
     					
     					// add url to the list
-    					tmpUrl = currentUrl;
+    					tmpUrl = new URLlist(currentUrl, null);
     					endOfList.next = tmpUrl;
     				}
     			}
@@ -188,10 +179,8 @@ public class Searcher {
 //    		System.out.println(current.word); // TODO Remove this line
     	}
     	infile.close();
-    	
+    
     	return start;
-    	
-    	
     }
     
     /**
@@ -239,5 +228,17 @@ public class Searcher {
     	//return front; // TODO somehow remove this...
     	return front;
     }
-
+    
+    
+    public static void getWordUrls(String word, HTMLlist l){
+    	while (l != null){
+    		if (l.word.equals(word)){
+    			while(l.urls != null){
+    				System.out.println(l.urls.url);
+    				l.urls = l.urls.next; 
+    			}
+    		}
+    		l = l.next;
+    	}
+    }
 }
