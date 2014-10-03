@@ -31,9 +31,9 @@ public class SearchCmd {
         BufferedReader inuser = new BufferedReader(new InputStreamReader (System.in));        
 
         System.out.println("Hit return to exit.");
+        System.out.println("File load time: " + (stopTime - startTime));
         while(true) {
         	HTMLlist passMe = l;
-        	System.out.println("File load time: " + (stopTime - startTime));
             System.out.print("Search for: ");
             word = inuser.readLine(); // Read a line from the terminal
             if (word == null || word.length() == 0) {
