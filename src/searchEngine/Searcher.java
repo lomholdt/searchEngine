@@ -224,9 +224,10 @@ public class Searcher {
     public static void getWordUrls(String word, HTMLlist l){
     	while (l != null){
     		if (l.word.equals(word)){
-    			while(l.urls != null){
-    				System.out.println(l.urls.url);
-    				l.urls = l.urls.next; 
+    			URLlist passMe = l.urls; // must copy to keep pointer
+    			while(passMe != null){
+    				System.out.println(passMe.url);
+    				passMe = passMe.next; 
     			}
     		}
     		l = l.next;

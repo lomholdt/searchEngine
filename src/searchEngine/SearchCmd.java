@@ -32,6 +32,7 @@ public class SearchCmd {
 
         System.out.println("Hit return to exit.");
         while(true) {
+        	HTMLlist passMe = l;
         	System.out.println("File load time: " + (stopTime - startTime));
             System.out.print("Search for: ");
             word = inuser.readLine(); // Read a line from the terminal
@@ -39,7 +40,7 @@ public class SearchCmd {
                 return;
             }
             else{
-            	Searcher.getWordUrls(word, l);
+            	Searcher.getWordUrls(word, passMe);
             }
             
 //            else {
