@@ -2,24 +2,29 @@ package searchEngine;
 import java.io.*;
 
 /**
- * The Searcher class
+ * The Searcher class contains several methods for creating
+ * a linked list and searching through it.
  * 
- * @author Lomholdt
+ * @author dawartz
+ * @author tonny
+ * @author buchvart
+ * @author lomholdt
  * @version 0.1
  */
 public class Searcher {
 	
+	/* Constants */
 	private static final String PREFIX_STRING = "*PAGE:";
 	
 	/**
-	 * The exists method
+	 * The method traverses a HTMLlist and returns boolean true
+	 * if the word passed in is already present in the list.
 	 * 
-	 * @param l
-	 * @param word
+	 * @param l pointer to front of list
+	 * @param word the word to search for
 	 * @return If a given word exists in a list
 	 */
     public static boolean exists(HTMLlist l, String word) {
-    	
         while (l != null) {
             if (l.word != null && l.word.equals(word)) {
                 return true;
@@ -28,16 +33,16 @@ public class Searcher {
         }
         return false;
     }
-    
 
     /**
+     * The method traverses a URLlist and returns boolean true
+     * if the URL passed in is already present in the list.
      * 
-     * @param l
-     * @param word
-     * @return
+     * @param l pointer to front of list
+     * @param url the url to search for
+     * @return boolean true or false
      */
     public static boolean UrlExists(URLlist l, String url) {
-    	
         while (l != null) {
             if (l.url != null && l.url.equals(url)) {
                 return true;
@@ -47,7 +52,6 @@ public class Searcher {
         return false;
     }
 
-    
     /**
      * The existsOnPage method loops over a HTMLlist and searches
      * for the given PREFIX_STRING. If the prefix is found it is stored
@@ -74,13 +78,17 @@ public class Searcher {
     	}
     }
 
+
+    
+    
     /**
      * The readHtmlList method
      * 
      * @param filename
-     * @return A htmllist with the start pointer to the linked list
+     * @return a HTMLlist with the start pointer to the linked list
      * @throws IOException
      */
+    /** =================================================================================
 //    public static HTMLlist readHtmlList(String filename) throws IOException {
 //        String word;
 //        HTMLlist start, current, tmp;
@@ -103,11 +111,16 @@ public class Searcher {
 //        return start;
 //    }
     
+    =================================================================================*/
+    
+    
+    
+    
     /**
      * The new readHtmlList method
      * 
      * @param filename
-     * @return
+     * @return pointer to front of list
      * @throws IOException
      */
     public static HTMLlist readHtmlList(String filename) throws IOException{
@@ -128,11 +141,8 @@ public class Searcher {
     			currentUrl = url;
     		}
     		else{ //  it's a word
-    			HTMLlist test1 = start;
-    			if(!exists(test1, line)){ // it has not been seen before
-    				
-    				// GO TO END OF LIST,
-    				HTMLlist test2 = start;
+    			tmp = start; // use temp as start pointer
+    			if(!exists(tmp, line)){ // it has not been seen before
     
     				// ADD HTMLList
     				if (current.word == null){ // first run
@@ -141,7 +151,7 @@ public class Searcher {
     					current.urls = tmpUrl;
     				}
     				else{
-    					HTMLlist endOfList = getEndOfList(test2);
+    					HTMLlist endOfList = getEndOfList(tmp);
     					tmpUrl = new URLlist(currentUrl, null);
     					// Add current to end of list
     					tmp = new HTMLlist(line, null, tmpUrl);
@@ -151,10 +161,9 @@ public class Searcher {
     			}
     			else{ // it has been seen
     				// go to HTMLlist object with the word
-    				HTMLlist test3 = start;
-    				current = getListObjectPosition(test3, line);
+    				current = getListObjectPosition(tmp, line);
     				
-    				if (!UrlExists(current.urls, currentUrl)){
+    				if (!UrlExists(current.urls, currentUrl)){ // if URL is not already added to the word
     					// go to end of URL list
     					URLlist endOfList = getEndOfList(current.urls);
     					
@@ -172,9 +181,10 @@ public class Searcher {
     }
     
     /**
+     * Returns a pointer to the last node in a HTMLlist
      * 
      * @param front
-     * @return
+     * @return pointer to last node in list
      */
     private static HTMLlist getEndOfList(HTMLlist front){
     	HTMLlist previous = front;
@@ -186,9 +196,10 @@ public class Searcher {
     }
     
     /**
+     * Returns a pointer to the last node in a URLlist
      * 
-     * @param front
-     * @return
+     * @param front pointer to front of list
+     * @return pointer to last node in list
      */
     public static URLlist getEndOfList(URLlist front){
     	URLlist previous = front;
@@ -200,9 +211,11 @@ public class Searcher {
     }
     
     /**
+     * Returns a pointer to the first HTMLlist object with a matching word
      * 
-     * @param front
-     * @param word
+     * @param front pointer to front of list
+     * @param word the word to search for
+     * @return a pointer to the node with matching word
      */
     public static HTMLlist getListObjectPosition(HTMLlist front, String word){
     	while(front != null){
@@ -211,15 +224,16 @@ public class Searcher {
     		}
     		front = front.next;
     	}
-    	System.out.println("her må vi ikke komme til");
-    	// TODO somehow remove this...
-    	return front;
+    	return null;
     }
     
     /**
+     * Prints all the URLs associated to a given HTMLlist node
+     * The method searches through a HTMLlist and prints the 
+     * URLs associated to the node that matches the word parameter.
      * 
-     * @param word
-     * @param l
+     * @param word to search for in HTMLlist
+     * @param l front pointer to front of list
      */
     public static void getWordUrls(String word, HTMLlist l){
     	while (l != null){
