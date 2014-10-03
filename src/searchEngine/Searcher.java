@@ -21,7 +21,6 @@ public class Searcher {
     public static boolean exists(HTMLlist l, String word) {
     	
         while (l != null) {
-        	//System.out.println("Checking " + l.word);
             if (l.word != null && l.word.equals(word)) {
                 return true;
             }
@@ -134,17 +133,12 @@ public class Searcher {
     				
     				// GO TO END OF LIST,
     				HTMLlist test2 = start;
-    				
-    				//System.out.println("First run: " + endOfList.word);
     
     				// ADD HTMLList
     				if (current.word == null){ // first run
     					current.word = line;
     					tmpUrl = new URLlist(currentUrl, null);
     					current.urls = tmpUrl;
-    					
-    					
-//    					System.out.println("Current is equal start");
     				}
     				else{
     					HTMLlist endOfList = getEndOfList(test2);
@@ -153,17 +147,12 @@ public class Searcher {
     					tmp = new HTMLlist(line, null, tmpUrl);
     					endOfList.next = tmp;
     					current = tmp;
-    					  
-    					//System.out.println(endOfList.word);
     				}
     			}
     			else{ // it has been seen
-//    				System.out.println(line + " already exists... ");
     				// go to HTMLlist object with the word
     				HTMLlist test3 = start;
     				current = getListObjectPosition(test3, line);
-//    				System.out.println("WE NEED: " + line);
-//    				System.out.println("WERE ON: " + current.word);
     				
     				if (!UrlExists(current.urls, currentUrl)){
     					// go to end of URL list
@@ -176,7 +165,6 @@ public class Searcher {
     			}
     		}
     		line = infile.readLine();
-//    		System.out.println(current.word); // TODO Remove this line
     	}
     	infile.close();
     
@@ -216,20 +204,23 @@ public class Searcher {
      * @param front
      * @param word
      */
-    public static HTMLlist getListObjectPosition(HTMLlist front, String word){ // FIXME if last object select previous
+    public static HTMLlist getListObjectPosition(HTMLlist front, String word){
     	while(front != null){
     		if (front.word.equals(word)){
-    			//System.out.println("FOUND IT\n" + front.word);
     			return front;
     		}
     		front = front.next;
     	}
     	System.out.println("her må vi ikke komme til");
-    	//return front; // TODO somehow remove this...
+    	// TODO somehow remove this...
     	return front;
     }
     
-    
+    /**
+     * 
+     * @param word
+     * @param l
+     */
     public static void getWordUrls(String word, HTMLlist l){
     	while (l != null){
     		if (l.word.equals(word)){
