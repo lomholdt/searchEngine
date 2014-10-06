@@ -168,7 +168,9 @@ public class Searcher {
     	URLlist tmpUrl, endOfUrlList;
     	HTMLlist start, current, tmp, tmp2, endOfList;
     	
-    	BufferedReader infile = new BufferedReader(new FileReader(filename)); // open the file
+    	//BufferedReader infile = new BufferedReader(new FileReader(filename)); // open the file
+    	BufferedReader infile = new BufferedReader(new InputStreamReader(new FileInputStream(filename), "UTF-8")); // UTF-8 capable file reader
+    	
     	line = infile.readLine(); // first line in file
     	
     	start = new HTMLlist(null, null, null); // first node pointer
@@ -203,7 +205,7 @@ public class Searcher {
     				tmpUrl = UrlListExists(current.urls, currentUrl);
     				if (!tmpUrl.url.equals(currentUrl)){ // if URL is not already added to the word
     					// go to end of URL list
-    					endOfUrlList = tmpUrl;
+    					endOfUrlList = tmpUrl; // maybe remove and pull together with last line
     					
     					// add url to the list
     					endOfUrlList.next = new URLlist(currentUrl, null);

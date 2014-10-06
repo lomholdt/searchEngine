@@ -15,7 +15,6 @@ public class SearchCmd {
 	 */
 	public static void main(String[] args) throws IOException {
         String word;
-        long startTime = System.currentTimeMillis();
         
         //Check that a filename has been given as argument
         if (args.length != 1) {
@@ -23,24 +22,26 @@ public class SearchCmd {
             System.exit(1);
         }
 
+        long startTime = System.currentTimeMillis();
         // Read the file and create the linked list
         HTMLlist l = Searcher.readHtmlList(args[0]);
         long stopTime = System.currentTimeMillis();
 
         // Ask for a word to search
-        BufferedReader inuser = new BufferedReader(new InputStreamReader (System.in));        
-
+        //BufferedReader inuser = new BufferedReader(new InputStreamReader (System.in));        
+        BufferedReader inuser = new BufferedReader(new InputStreamReader(System.in, "UTF-8")); // UTF-8 capable input reader
+        
         System.out.println("Hit return to exit.");
         System.out.println("File load time: " + (stopTime - startTime));
         while(true) {
-        	HTMLlist passMe = l;
+        	HTMLlist tmp = l; // make new temp front pointer, so we can search several times
             System.out.print("Search for: ");
             word = inuser.readLine(); // Read a line from the terminal
             if (word == null || word.length() == 0) {
                 return;
             }
             else{
-            	Searcher.getWordUrls(word, passMe);
+            	Searcher.getWordUrls(word, tmp);
             }
             
 //            else {
