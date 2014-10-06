@@ -33,6 +33,26 @@ public class Searcher {
         }
         return false;
     }
+    
+    /**
+     * Finds the HTMLlist object that matches the word parameter if present
+     * otherwise it returns the last object in the list.
+     * 
+     * @param front the pointer to the front of the list
+     * @param word the word to search for
+     * @return returns the HTMLlist object
+     */
+    public static HTMLlist HtmlListExists(HTMLlist front, String word){
+    	HTMLlist previous = front;
+    	while(front != null){
+    		if (front.word != null && front.word.equals(word)){
+    			return front;
+    		}
+    		previous = front;
+    		front = front.next;
+    	}
+    	return previous;
+    }
 
     /**
      * The method traverses a URLlist and returns boolean true
@@ -50,6 +70,26 @@ public class Searcher {
             l = l.next;
         }
         return false;
+    }
+    
+    /**
+     * Finds the URLlist object that matches the url parameter if present
+     * otherwise it returns the last object in the list.
+     * 
+     * @param front
+     * @param url
+     * @return
+     */
+    public static URLlist UrlListExists(URLlist front, String url) {
+    	URLlist previous = front;
+        while (front != null) {
+            if (front.url != null && front.url.equals(url)) {
+                return front;
+            }
+            previous = front;
+            front = front.next;
+        }
+        return previous;
     }
 
     /**
@@ -125,8 +165,8 @@ public class Searcher {
      */
     public static HTMLlist readHtmlList(String filename) throws IOException{
     	String line, currentUrl;
-    	URLlist tmpUrl;
-    	HTMLlist start, current, tmp;
+    	URLlist tmpUrl, endOfUrlList;
+    	HTMLlist start, current, tmp, tmp2, endOfList;
     	
     	BufferedReader infile = new BufferedReader(new FileReader(filename)); // open the file
     	line = infile.readLine(); // first line in file
@@ -141,35 +181,32 @@ public class Searcher {
     			currentUrl = url;
     		}
     		else{ //  it's a word
+				if (current.word == null){ // if first run
+					current.word = line;
+					current.urls = new URLlist(currentUrl, null);
+				}
     			tmp = start; // use temp as start pointer
-    			if(!exists(tmp, line)){ // it has not been seen before
-    
+    			tmp2 = HtmlListExists(tmp, line);
+    			
+    			if(!tmp2.word.equals(line)){ // it has not been seen before
     				// ADD HTMLList
-    				if (current.word == null){ // first run
-    					current.word = line;
-    					tmpUrl = new URLlist(currentUrl, null);
-    					current.urls = tmpUrl;
-    				}
-    				else{
-    					HTMLlist endOfList = getEndOfList(tmp);
-    					tmpUrl = new URLlist(currentUrl, null);
-    					// Add current to end of list
-    					tmp = new HTMLlist(line, null, tmpUrl);
-    					endOfList.next = tmp;
-    					current = tmp;
-    				}
+					endOfList = tmp2;
+					tmpUrl = new URLlist(currentUrl, null);
+					// Add current to end of list
+					tmp = new HTMLlist(line, null, tmpUrl);
+					endOfList.next = tmp;
+					current = tmp;
     			}
     			else{ // it has been seen
     				// go to HTMLlist object with the word
-    				current = getListObjectPosition(tmp, line);
-    				
-    				if (!UrlExists(current.urls, currentUrl)){ // if URL is not already added to the word
+    				current = tmp2;
+    				tmpUrl = UrlListExists(current.urls, currentUrl);
+    				if (!tmpUrl.url.equals(currentUrl)){ // if URL is not already added to the word
     					// go to end of URL list
-    					URLlist endOfList = getEndOfList(current.urls);
+    					endOfUrlList = tmpUrl;
     					
     					// add url to the list
-    					tmpUrl = new URLlist(currentUrl, null);
-    					endOfList.next = tmpUrl;
+    					endOfUrlList.next = new URLlist(currentUrl, null);
     				}
     			}
     		}
@@ -236,15 +273,18 @@ public class Searcher {
      * @param l front pointer to front of list
      */
     public static void getWordUrls(String word, HTMLlist l){
+    	int count = 0;
     	while (l != null){
     		if (l.word.equals(word)){
-    			URLlist passMe = l.urls; // must copy to keep pointer
-    			while(passMe != null){
-    				System.out.println(passMe.url);
-    				passMe = passMe.next; 
+    			URLlist front = l.urls; // must copy to keep pointer
+    			while(front != null){
+    				System.out.println(front.url);
+    				count++;
+    				front = front.next; 
     			}
     		}
     		l = l.next;
     	}
+    	System.out.printf("Found %d results%n", count);
     }
 }
