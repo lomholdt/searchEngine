@@ -195,7 +195,7 @@ public class Searcher {
 					endOfList = tmp2;
 					tmpUrl = new URLlist(currentUrl, null);
 					// Add current to end of list
-					tmp = new HTMLlist(line, null, tmpUrl);
+					tmp = new HTMLlist(line, tmpUrl, null);
 					endOfList.next = tmp;
 					current = tmp;
     			}

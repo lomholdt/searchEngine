@@ -14,7 +14,7 @@ public class HTMLlist {
      * @param s
      * @param n
      */
-    HTMLlist (String w, HTMLlist n, URLlist u) {
+    HTMLlist (String w, URLlist u, HTMLlist n) {
         word = w;
         urls = u;
         next = n;

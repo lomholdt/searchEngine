@@ -7,9 +7,9 @@ public class testClient {
 		URLlist b = new URLlist("url 2", null); 
 		URLlist c = new URLlist("url 3", null);
 		
-		HTMLlist d = new HTMLlist("Aktuelt", null, a);
-		HTMLlist e = new HTMLlist("IT", null, b);
-		HTMLlist f = new HTMLlist("Universitet", null, c);
+		HTMLlist d = new HTMLlist("Aktuelt", a, null);
+		HTMLlist e = new HTMLlist("IT", b, null);
+		HTMLlist f = new HTMLlist("Universitet", c, null);
 		
 		a.next = b;
 		b.next = c;
