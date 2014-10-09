@@ -2,16 +2,36 @@ package searchEngine;
 
 import java.io.*;
 
+/**
+ * HashTable class can create an array of HMTLlist pointers
+ * with words indexed using a hash function. 
+ */
 public class HashTable {
 
+	/* Constants */
 	private static final int ARRAY_SIZE = 5000000;
 	private static HTMLlist[] ARRAY = new HTMLlist[ARRAY_SIZE];
 	private static final String PREFIX_STRING = "*PAGE:";
 
+	/**
+	 * Retrieves the calculated index for the word
+	 * 
+	 * @param word the word to find a index for
+	 * @return an integer index
+	 */
 	public static int getWordIndex(String word){
 		return Math.abs(word.hashCode()) % ARRAY_SIZE;
 	}
 	
+	/**
+	 * Creates an HTMLlist array with pointers to the words
+	 * that has been indexed. Uses getWordIndex hash function
+	 * to get index value.
+	 * 
+	 * @param filename the path to the file to load
+	 * @return an array of HTMLlist pointers to the words
+	 * @throws IOException
+	 */
 	public static HTMLlist[] createArray(String filename) throws IOException{
 		String line, currentUrl;
 		URLlist tmpUrl;
@@ -22,7 +42,6 @@ public class HashTable {
 		line = infile.readLine(); // read first line
 		currentUrl = "";
 		
-
 		while (line != null){ // loop over each line in file
 			if(line.startsWith(PREFIX_STRING)){ // it's a URL
 				currentUrl = line.substring(PREFIX_STRING.length()); // remove prefix from URL
