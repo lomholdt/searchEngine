@@ -71,10 +71,17 @@ public class SearchCmd {
 		HTMLlist[] hashedArray = HashTable.createArray(args[0]);
 		long stopTime = System.currentTimeMillis();
 
+		
 		// Ask for a word to search     
 		BufferedReader inuser = new BufferedReader(new InputStreamReader(System.in, "UTF-8")); // UTF-8 capable input reader
+		
+		// show quick statistics
 		System.out.println("Hit return to exit.");
-		System.out.println("File load time: " + (stopTime - startTime));
+		System.out.printf("File load time:\t %d%n", (stopTime - startTime));
+		System.out.printf("Load factor:\t %f @ %d%n", HashTable.getLoadFactor(), HashTable.getArraySize());
+		System.out.printf("Array elements:\t %d%n", HashTable.getArrayCount());
+		System.out.printf("Words:\t\t %d%n", HashTable.getWordCount());
+		System.out.printf("URL's:\t\t %d%n", HashTable.getUrlCount());
 
 		while(true){
 			System.out.print("Hash search for: ");
