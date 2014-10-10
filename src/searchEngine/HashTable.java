@@ -15,7 +15,7 @@ public class HashTable {
 	private static int wordCount;
 	private static int urlCount;
 	private static int arrayCount;
-	private static HTMLlist[] ARRAY = new HTMLlist[ARRAY_SIZE];
+	private static HTMLlist[] HASH_TABLE = new HTMLlist[ARRAY_SIZE];
 	
 	/**
 	 * Retrieves the calculated index for the word
@@ -73,6 +73,46 @@ public class HashTable {
 	}
 	
 	/**
+	 * Appends a HTMLlist object to the element
+	 * passed in, which should be the last element 
+	 * of a linked list of HTML objects.
+	 * 
+	 * @param word the word to add to the HTMLlist object
+	 * @param url the url where the word was found
+	 * @param lastElementInList pointer to the last HTMLlist object in the list
+	 */
+	private static void appendToHtmlList(String word, String url, HTMLlist lastElementInList){
+		URLlist tmpUrl = new URLlist(url, null);
+		lastElementInList.next = new HTMLlist(word, tmpUrl, null);
+	}
+	
+	/**
+	 * Appends a URLlist object to the element
+	 * passed in, which should be the last element 
+	 * of a linked list of HTML objects.
+	 * 
+	 * @param url the url to be added
+	 * @param lastElementInList pointer to the last URLlist object in the list
+	 */
+	private static void appendToUrlList(String url, URLlist lastElementInList){
+		lastElementInList.next = new URLlist(url, null);
+	}
+	
+	/**
+	 * Adds a HTMLlist object to the array at the given index
+	 * with the given word and URL.
+	 * 
+	 * @param word the word to be added to the HTMLlist object
+	 * @param url the URL to be added to the URLlist object
+	 * @param index the index position to add the object
+	 */
+	private static void addToArray(String word, String url, int index){
+		URLlist tmpUrl = new URLlist(url, null);
+		HTMLlist tmpHtml = new HTMLlist(word, tmpUrl, null);
+		HASH_TABLE[index] = tmpHtml;
+	}
+	
+	/**
 	 * Creates an HTMLlist array with pointers to the words
 	 * that has been indexed. Uses getWordIndex hash function
 	 * to get index value.
@@ -84,7 +124,7 @@ public class HashTable {
 	public static HTMLlist[] createArray(String filename) throws IOException{
 		String line, currentUrl;
 		URLlist tmpUrl;
-		HTMLlist front, tmpHtml, tmpHtml2;
+		HTMLlist front, tmpHtml; 
 		int wordIndex;
 		
 		BufferedReader infile = new BufferedReader(new InputStreamReader(new FileInputStream(filename), "UTF-8")); // UTF-8 capable file reader
@@ -98,29 +138,22 @@ public class HashTable {
 			}
 			else{ // it's a word
 				wordIndex = getWordIndex(line); // get index for word
-
-				if (ARRAY[wordIndex] == null){ // INDEX IS EMPTY
-					tmpUrl = new URLlist(currentUrl, null);
-					tmpHtml = new HTMLlist(line, tmpUrl, null);
-					ARRAY[wordIndex] = tmpHtml;
+				if (HASH_TABLE[wordIndex] == null){ // index is empty
+					addToArray(line, currentUrl, wordIndex);
 					arrayCount++;
 					wordCount++;
 				}
-				else{ // INDEX IS NOT EMPTY 
-					front = ARRAY[wordIndex];
-					tmpHtml = Searcher.HtmlListExists(front, line); 
-					// check if word exists
+				else{ // index is not empty
+					front = HASH_TABLE[wordIndex];
+					tmpHtml = Searcher.HtmlListExists(front, line);
 					if (!tmpHtml.word.equals(line)){ // it's a new word (not already present), append to back of list
-						tmpUrl = new URLlist(currentUrl, null);
-						tmpHtml2 = new HTMLlist(line, tmpUrl, null);
-						tmpHtml.next = tmpHtml2;
+						appendToHtmlList(line, currentUrl, tmpHtml);
 						wordCount++;
 					}
 					else{ // word is already in list
-						// check if url exist in urls
-						tmpUrl = Searcher.UrlListExists(tmpHtml.urls, currentUrl);
+						tmpUrl = Searcher.UrlListExists(tmpHtml.urls, currentUrl); // check if url exist in urls
 						if (!tmpUrl.url.equals(currentUrl)){ // if url is not already there
-							tmpUrl.next = new URLlist(currentUrl, null);
+							appendToUrlList(currentUrl, tmpUrl);
 						}
 					}
 				}
@@ -128,6 +161,8 @@ public class HashTable {
 			line = infile.readLine();
 		}
 		infile.close();
-		return ARRAY;
+		return HASH_TABLE;
 	}
 }
+
+

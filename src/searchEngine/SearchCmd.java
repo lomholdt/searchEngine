@@ -43,7 +43,7 @@ public class SearchCmd {
 	//            else{
 	//            	Searcher.getWordUrls(word, tmp);
 	//            }
-	//            
+	
 	//            else {
 	//            	Searcher.existsOnPage(l, word);
 	//            }
@@ -55,34 +55,48 @@ public class SearchCmd {
 	//            }
 	//        }
 	//    }
-
+	
 	public static void main(String[] args) throws IOException{
-		String word;
-		int wordIndex;
-		HTMLlist front;
-
 		if (args.length != 1) {
 			System.out.println("Usage: java SearchCmd <datafile>");
 			System.exit(1);
 		}
-
 		// Read the file and create the hashed array
 		long startTime = System.currentTimeMillis();
 		HTMLlist[] hashedArray = HashTable.createArray(args[0]);
-		long stopTime = System.currentTimeMillis();
-
-		
-		// Ask for a word to search     
-		BufferedReader inuser = new BufferedReader(new InputStreamReader(System.in, "UTF-8")); // UTF-8 capable input reader
+		long stopTime = System.currentTimeMillis();			
 		
 		// show quick statistics
 		System.out.println("Hit return to exit.");
 		System.out.printf("File load time:\t %d%n", (stopTime - startTime));
+		printStatistics();
+		startSearcher(hashedArray);
+		System.out.println("Exiting");
+	}
+	
+	/**
+	 * Prints small statistics about the array created in HashTable class
+	 */
+	public static void printStatistics(){
 		System.out.printf("Load factor:\t %f @ %d%n", HashTable.getLoadFactor(), HashTable.getArraySize());
 		System.out.printf("Array elements:\t %d%n", HashTable.getArrayCount());
 		System.out.printf("Words:\t\t %d%n", HashTable.getWordCount());
 		System.out.printf("URL's:\t\t %d%n", HashTable.getUrlCount());
-
+	}
+	
+	/**
+	 * Starts the search program until user quits 
+	 * 
+	 * @param hashedArray the hashed array
+	 * @throws IOException
+	 */
+	public static void startSearcher(HTMLlist[] hashedArray) throws IOException{ //FIXME Will this bastard copy the array or just copy the pointer???
+		String word;
+		int wordIndex;
+		HTMLlist front;
+		
+		BufferedReader inuser = new BufferedReader(new InputStreamReader(System.in, "UTF-8")); // UTF-8 capable input reader
+		
 		while(true){
 			System.out.print("Hash search for: ");
 			word = inuser.readLine();
@@ -100,6 +114,6 @@ public class SearchCmd {
 					Searcher.getWordUrls(word, front);
 				}
 			}
-		}	
+		}
 	}
 }
