@@ -289,4 +289,14 @@ public class Searcher {
     	}
     	System.out.printf("Found %d results%n", count);
     }
+    
+    public static void getWordUrlsInHashSet(String word, HTMLlist l){
+    	int count = 0;
+    	for (String url : l.urls) {
+    		System.out.println(url);
+    		count++;	
+		}
+    	System.out.printf("Found %d results%n", count);
+    }
+    
 }

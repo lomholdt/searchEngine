@@ -1,4 +1,7 @@
 package searchEngine;
+
+import java.util.HashSet;
+
 /**
  * This is the HTMLlist node object 
  * @author Lomholdt
@@ -6,7 +9,7 @@ package searchEngine;
  */
 public class HTMLlist {
     String word;
-    URLlist urls;
+    HashSet<String> urls;
     HTMLlist next;
     
     /**
@@ -14,7 +17,7 @@ public class HTMLlist {
      * @param s
      * @param n
      */
-    HTMLlist (String w, URLlist u, HTMLlist n) {
+    HTMLlist (String w, HashSet<String> u, HTMLlist n) {
         word = w;
         urls = u;
         next = n;
