@@ -1,5 +1,3 @@
-
-
 import java.io.*;
 import java.util.HashSet;
 
@@ -89,18 +87,7 @@ public class HashTable {
 		urls.add(url);
 		lastElementInList.next = new HTMLlist(word, urls, null);
 	}
-	
-	/**
-	 * Appends a URLlist object to the element
-	 * passed in, which should be the last element 
-	 * of a linked list of HTML objects.
-	 * 
-	 * @param url the url to be added
-	 * @param lastElementInList pointer to the last URLlist object in the list
-	 */
-	private static void appendToUrlList(String url, URLlist lastElementInList){
-		lastElementInList.next = new URLlist(url, null);
-	}
+
 	
 	/**
 	 * Adds a HTMLlist object to the array at the given index
@@ -128,7 +115,6 @@ public class HashTable {
 	 */
 	public static HTMLlist[] createArray(String filename) throws IOException{
 		String line, currentUrl;
-		URLlist tmpUrl;
 		HTMLlist front, tmpHtml; 
 		int wordIndex;
 		

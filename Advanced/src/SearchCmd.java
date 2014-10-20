@@ -1,4 +1,3 @@
-
 import java.io.*;
 import java.util.HashSet;
 import java.util.StringTokenizer;
@@ -7,7 +6,6 @@ import java.util.StringTokenizer;
  * The SearchCmd Class for advanced
  * 
  * @author Lomholdt
- *
  */
 public class SearchCmd {
 	private static final String SEARCH_FOR_MESSAGE = "Hash search for: ";

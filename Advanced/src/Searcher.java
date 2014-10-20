@@ -1,5 +1,3 @@
-import java.io.*;
-
 /**
  * The Searcher class contains several methods for creating
  * a linked list and searching through it.
