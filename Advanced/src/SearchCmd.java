@@ -4,13 +4,26 @@ import java.util.HashSet;
 import java.util.StringTokenizer;
 
 /**
- * The SearchCmd class
+ * The SearchCmd Class for advanced
  * 
+ * @author Lomholdt
+ *
  */
 public class SearchCmd {
 	private static final String SEARCH_FOR_MESSAGE = "Hash search for: ";
+	private static final String EXIT_MESSAGE = "Hit return to exit."; 
+	private static final String FILE_LOAD_MESSAGE = "File load time:\t %d%n";
+	private static final String END_PROGRAM_MESSAGE = "Exiting";
+	private static final String USAGE_MESSAGE = "Usage: java SearchCmd <datafile>";
+	
 	private static final String INPUT_ENCODING_TYPE = "UTF-8";
 
+	/**
+	 * Main method
+	 * 
+	 * @param args
+	 * @throws IOException
+	 */
 	public static void main(String[] args) throws IOException{
 		checkForInput(args);
 
@@ -20,13 +33,11 @@ public class SearchCmd {
 		long stopTime = System.currentTimeMillis();			
 
 		// show quick statistics
-		System.out.println("Hit return to exit.");
-		System.out.printf("File load time:\t %d%n", (stopTime - startTime));
+		System.out.println(EXIT_MESSAGE);
+		System.out.printf(FILE_LOAD_MESSAGE, (stopTime - startTime));
 		printStatistics();
 		startTokenSearcher(hashedArray);
-		//		startSearcher(hashedArray);
-		//		tokenCruncher("Hans AND Grethe");
-		System.out.println("Exiting");
+		System.out.println(END_PROGRAM_MESSAGE);
 	}
 
 	/**
@@ -36,11 +47,10 @@ public class SearchCmd {
 	 */
 	private static void checkForInput(String[] args){
 		if (args.length != 1) {
-			System.out.println("Usage: java SearchCmd <datafile>");
+			System.out.println(USAGE_MESSAGE);
 			System.exit(1);
 		}
 	}
-
 
 	/**
 	 * Prints small statistics about the array created in HashTable class
@@ -51,45 +61,16 @@ public class SearchCmd {
 		System.out.printf("Words:\t\t %d%n", HashTable.getWordCount());
 		System.out.printf("URL's:\t\t %d%n", HashTable.getUrlCount());
 	}
-
+	
 	/**
-	 * Starts the search program until user quits 
+	 * startTokenSearcher
 	 * 
-	 * @param hashedArray the hashed array
+	 * @param hashedArray
 	 * @throws IOException
 	 */
-	private static void startSearcher(HTMLlist[] hashedArray) throws IOException{ //FIXME Will this bastard copy the array or just copy the pointer???
-		String word;
-		int wordIndex;
-		HTMLlist front;
-
-		BufferedReader inuser = new BufferedReader(new InputStreamReader(System.in, INPUT_ENCODING_TYPE)); // UTF-8 capable input reader
-
-		while(true){
-			System.out.print(SEARCH_FOR_MESSAGE);
-			word = inuser.readLine();
-
-			if(word == null || word.length() == 0){
-				break;
-			}
-			else{
-				wordIndex = HashTable.getWordIndex(word);
-				front = hashedArray[wordIndex];
-				if(front == null){
-					System.out.println("No result");
-				}
-				else{
-					Searcher.getWordUrlsInHashSet(word, front);
-				}
-			}
-		}
-	}
-
-
 	private static void startTokenSearcher(HTMLlist[] hashedArray) throws IOException{
 		String input;
 		BufferedReader inuser = new BufferedReader(new InputStreamReader(System.in, INPUT_ENCODING_TYPE)); // UTF-8 capable input reader
-
 
 		while(true){
 			System.out.print(SEARCH_FOR_MESSAGE);
@@ -99,7 +80,6 @@ public class SearchCmd {
 			if(input == null || input.length() == 0){
 				break;
 			}
-
 			else if(st.hasMoreTokens()){
 				int numberOfTokens = st.countTokens();
 				if (numberOfTokens == 1){
@@ -112,7 +92,6 @@ public class SearchCmd {
 						Searcher.getWordUrlsInHashSet(input, front);
 					}	
 				}
-				
 				else if (numberOfTokens == 2){
 					System.out.println("An error occured");
 				}
@@ -121,7 +100,6 @@ public class SearchCmd {
 					String second = st.nextToken().toUpperCase();
 					String third = st.nextToken();
 					if(second.equals("AND")){
-						//System.out.printf("AND: %s %s", first, third);
 						tokenAndSearcher(first, third, hashedArray);
 					}
 					else if(second.equals("OR")){
@@ -138,6 +116,13 @@ public class SearchCmd {
 		}
 	}
 
+	/**
+	 * And search
+	 * 
+	 * @param word1
+	 * @param word2
+	 * @param hashedArray
+	 */
 	private static void tokenAndSearcher(String word1, String word2, HTMLlist[] hashedArray){
 		int wordIndex1 = HashTable.getWordIndex(word1);
 		int wordIndex2 = HashTable.getWordIndex(word2);
@@ -159,6 +144,13 @@ public class SearchCmd {
 		}
 	}
 	
+	/**
+	 * OR search
+	 * 
+	 * @param word1
+	 * @param word2
+	 * @param hashedArray
+	 */
 	private static void tokenOrSearcher(String word1, String word2, HTMLlist[] hashedArray){
 		int wordIndex1 = HashTable.getWordIndex(word1);
 		int wordIndex2 = HashTable.getWordIndex(word2);
