@@ -67,7 +67,7 @@ public class SearchCmd {
 	 * @throws IOException
 	 */
 	private static void startTokenSearcher(HTMLlist[] hashedArray) throws IOException{
-		String input;
+		String input, first, second, third;
 		BufferedReader inuser = new BufferedReader(new InputStreamReader(System.in, INPUT_ENCODING_TYPE)); // UTF-8 capable input reader
 
 		while(true){
@@ -94,9 +94,9 @@ public class SearchCmd {
 					System.out.println("An error occured");
 				}
 				else if (numberOfTokens == 3){
-					String first = st.nextToken();
-					String second = st.nextToken().toUpperCase();
-					String third = st.nextToken();
+					first = st.nextToken();
+					second = st.nextToken().toUpperCase();
+					third = st.nextToken();
 					if(second.equals("AND")){
 						tokenAndSearcher(first, third, hashedArray);
 					}
