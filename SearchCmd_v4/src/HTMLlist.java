@@ -1,4 +1,4 @@
-package searchEngine;
+
 /**
  * This is the HTMLlist node object 
  * @author Lomholdt

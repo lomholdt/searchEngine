@@ -1,7 +1,6 @@
-package searchEngine;
+
 
 import java.io.*;
-import java.util.HashSet;
 
 /**
  * HashTable class can create an array of HMTLlist pointers
@@ -11,14 +10,12 @@ public class HashTable {
 	/* Constants */
 	private static final int ARRAY_SIZE = 5000000;
 	private static final String PREFIX_STRING = "*PAGE:";
-	private static final String LOADING_FILE = "Loading file...";
-	private static final String CARRIAGE_RETURN = "\r";
 	
 	/* Data fields */
 	private static int wordCount;
 	private static int urlCount;
 	private static int arrayCount;
-	private static HTMLlist[] hashTable = new HTMLlist[ARRAY_SIZE];
+	private static HTMLlist[] HASH_TABLE = new HTMLlist[ARRAY_SIZE];
 	
 	/**
 	 * Retrieves the calculated index for the word
@@ -85,9 +82,8 @@ public class HashTable {
 	 * @param lastElementInList pointer to the last HTMLlist object in the list
 	 */
 	private static void appendToHtmlList(String word, String url, HTMLlist lastElementInList){
-		HashSet<String> urls = new HashSet<String>();
-		urls.add(url);
-		lastElementInList.next = new HTMLlist(word, urls, null);
+		URLlist tmpUrl = new URLlist(url, null);
+		lastElementInList.next = new HTMLlist(word, tmpUrl, null);
 	}
 	
 	/**
@@ -111,10 +107,9 @@ public class HashTable {
 	 * @param index the index position to add the object
 	 */
 	private static void addToArray(String word, String url, int index){
-		HashSet<String> urls = new HashSet<String>();
-		urls.add(url);
-		HTMLlist tmpHtml = new HTMLlist(word, urls, null);
-		hashTable[index] = tmpHtml;
+		URLlist tmpUrl = new URLlist(url, null);
+		HTMLlist tmpHtml = new HTMLlist(word, tmpUrl, null);
+		HASH_TABLE[index] = tmpHtml;
 	}
 	
 	/**
@@ -132,8 +127,6 @@ public class HashTable {
 		HTMLlist front, tmpHtml; 
 		int wordIndex;
 		
-		System.out.print(LOADING_FILE); // tell user that file is loading
-		
 		BufferedReader infile = new BufferedReader(new InputStreamReader(new FileInputStream(filename), "UTF-8")); // UTF-8 capable file reader
 		line = infile.readLine(); // read first line
 		currentUrl = "";
@@ -145,28 +138,30 @@ public class HashTable {
 			}
 			else{ // it's a word
 				wordIndex = getWordIndex(line); // get index for word
-				if (hashTable[wordIndex] == null){ // index is empty
+				if (HASH_TABLE[wordIndex] == null){ // index is empty
 					addToArray(line, currentUrl, wordIndex);
 					arrayCount++;
 					wordCount++;
 				}
 				else{ // index is not empty
-					front = hashTable[wordIndex];
+					front = HASH_TABLE[wordIndex];
 					tmpHtml = Searcher.HtmlListExists(front, line);
 					if (!tmpHtml.word.equals(line)){ // it's a new word (not already present), append to back of list
 						appendToHtmlList(line, currentUrl, tmpHtml);
 						wordCount++;
 					}
 					else{ // word is already in list
-						tmpHtml.urls.add(currentUrl); // we don't care if url is already present, HashSet will ignore if that's the case
+						tmpUrl = Searcher.UrlListExists(tmpHtml.urls, currentUrl); // check if url exist in urls
+						if (!tmpUrl.url.equals(currentUrl)){ // if url is not already there
+							appendToUrlList(currentUrl, tmpUrl);
+						}
 					}
 				}
 			}
 			line = infile.readLine();
 		}
 		infile.close();
-		System.out.print(CARRIAGE_RETURN); // return terminal cursor to start
-		return hashTable;
+		return HASH_TABLE;
 	}
 }
 
