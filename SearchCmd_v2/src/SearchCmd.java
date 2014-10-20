@@ -14,7 +14,7 @@ class Searcher {
 	public static final String PREFIX_URL = "*PAGE:";
 
 	public static void exists(HTMLlist l, String word) {
-		boolean exist = false;
+		boolean exist = false, wordExists = false;
 		System.out.println("The word: " + word);
 		String url ="";
 		while (l != null) {
@@ -24,9 +24,13 @@ class Searcher {
 			}
 			if (l.str.equals(word) && !exist) {
 				exist = true;
+				wordExists = true;
 				System.out.println("Exist on page: " + url);
 			}
 			l = l.next;
+		}
+		if(!wordExists){
+			System.out.println("- does not exist");
 		}
 	}
 
