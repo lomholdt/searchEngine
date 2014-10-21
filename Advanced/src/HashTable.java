@@ -4,8 +4,12 @@ import java.util.HashSet;
 /**
  * HashTable class can create an array of HMTLlist pointers
  * with words indexed using a hash function. 
+ * 
+ * @author Lomholdt
+ * @version Advanced
  */
 public class HashTable {
+	
 	/* Constants */
 	private static final int ARRAY_SIZE = 5000000;
 	private static final String PREFIX_STRING = "*PAGE:";
@@ -88,7 +92,6 @@ public class HashTable {
 		lastElementInList.next = new HTMLlist(word, urls, null);
 	}
 
-	
 	/**
 	 * Adds a HTMLlist object to the array at the given index
 	 * with the given word and URL.
@@ -155,5 +158,3 @@ public class HashTable {
 		return hashTable;
 	}
 }
-
-

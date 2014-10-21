@@ -2,16 +2,10 @@
  * The Searcher class contains several methods for creating
  * a linked list and searching through it.
  * 
- * @author dawartz
- * @author tonny
- * @author buchvart
- * @author lomholdt
- * @version 0.1
+ * @author Niels, Mikkel, Jonas, Jonas
+ * @version Advanced
  */
 public class Searcher {
-	
-	/* Constants */
-	private static final String PREFIX_STRING = "*PAGE:";
     
     /**
      * Finds the HTMLlist object that matches the word parameter if present
@@ -34,12 +28,11 @@ public class Searcher {
     }
     
     /**
-     * Method for retrieving urls from hashset
+     * Method for printing urls from a hashset
      * 
-     * @param word
-     * @param l
+     * @param l HTMLlist node pointer 
      */
-    public static void getWordUrlsInHashSet(String word, HTMLlist l){
+    public static void getWordUrlsInHashSet(HTMLlist l){
     	int count = 0;
     	for (String url : l.urls) {
     		System.out.println(url);

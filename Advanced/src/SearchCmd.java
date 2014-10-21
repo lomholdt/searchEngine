@@ -6,10 +6,11 @@ import java.util.StringTokenizer;
  * The SearchCmd Class for advanced
  * 
  * @author Lomholdt
+ * @version Advanced
  */
 public class SearchCmd {
 	private static final String SEARCH_FOR_MESSAGE = "Hash search for: ";
-	private static final String EXIT_MESSAGE = "Hit return to exit."; 
+	private static final String HOW_TO_EXIT_MESSAGE = "Hit return to exit."; 
 	private static final String FILE_LOAD_MESSAGE = "File load time:\t %d%n";
 	private static final String END_PROGRAM_MESSAGE = "Exiting";
 	private static final String USAGE_MESSAGE = "Usage: java SearchCmd <datafile>";
@@ -17,7 +18,7 @@ public class SearchCmd {
 	private static final String INPUT_ENCODING_TYPE = "UTF-8";
 
 	/**
-	 * Main method
+	 * Main method for running the program
 	 * 
 	 * @param args
 	 * @throws IOException
@@ -31,7 +32,7 @@ public class SearchCmd {
 		long stopTime = System.currentTimeMillis();			
 
 		// show quick statistics
-		System.out.println(EXIT_MESSAGE);
+		System.out.println(HOW_TO_EXIT_MESSAGE);
 		System.out.printf(FILE_LOAD_MESSAGE, (stopTime - startTime));
 		printStatistics();
 		startTokenSearcher(hashedArray);
@@ -87,7 +88,7 @@ public class SearchCmd {
 						System.out.println("No result");
 					}
 					else{
-						Searcher.getWordUrlsInHashSet(input, front);
+						Searcher.getWordUrlsInHashSet(front);
 					}	
 				}
 				else if (numberOfTokens == 2){
@@ -115,7 +116,7 @@ public class SearchCmd {
 	}
 
 	/**
-	 * And search
+	 * AND search
 	 * 
 	 * @param word1
 	 * @param word2
@@ -162,7 +163,6 @@ public class SearchCmd {
 			System.out.println("Both words does not occur");
 			return;
 		}
-		
 		if(one != null){
 			for (String url : one.urls){
 				urls.add(url);
