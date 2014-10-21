@@ -1,64 +1,20 @@
 import java.io.*;
 
-class HTMLlist {
-	String str;
-	HTMLlist next;
-
-	HTMLlist (String s, HTMLlist n) {
-		str = s;
-		next = n;
-	}
-}
-
-class Searcher {
-	public static final String PREFIX_URL = "*PAGE:";
-
-	public static void exists(HTMLlist l, String word) {
-		boolean exist = false, wordExists = false;
-		System.out.println("The word: " + word);
-		String url ="";
-		while (l != null) {
-			if(l.str.startsWith(PREFIX_URL)){
-				url = l.str.substring(6);
-				exist = false;
-			}
-			if (l.str.equals(word) && !exist) {
-				exist = true;
-				wordExists = true;
-				System.out.println("Exist on page: " + url);
-			}
-			l = l.next;
-		}
-		if(!wordExists){
-			System.out.println("- does not exist");
-		}
-	}
-
-	public static HTMLlist readHtmlList (String filename) throws IOException {
-		String name;
-		HTMLlist start, current, tmp;
-
-		// Open the file given as argument
-		BufferedReader infile = new BufferedReader (new FileReader (filename));
-
-		name = infile.readLine(); //Read the first line
-		start = new HTMLlist (name, null);
-		current = start;
-		name = infile.readLine(); // Read the next line
-		while (name != null) {    // Exit if there is none
-			tmp = new HTMLlist (name, null);
-			current.next = tmp;
-			current = tmp;            // Update the linked list
-			name = infile.readLine(); // Read the next line
-		}
-		infile.close(); // Close the file
-
-		return start;
-	}
-}
-
+/**
+ * The SearchCmd class containing the main method 
+ * to run the program. 
+ * 
+ * @author Niels, Mikkel, Jonas, Jonas
+ * @version 2.0
+ */
 public class SearchCmd {
 
+	/**
+	 * The main method
+	 * 
+	 * @param args path to datafile to open
+	 * @throws IOException
+	 */
 	public static void main (String[] args) throws IOException {
 		String name;
 
@@ -72,8 +28,7 @@ public class SearchCmd {
 		HTMLlist l = Searcher.readHtmlList (args[0]);
 
 		// Ask for a word to search
-		BufferedReader inuser =
-				new BufferedReader (new InputStreamReader (System.in));
+		BufferedReader inuser = new BufferedReader (new InputStreamReader (System.in));
 
 		System.out.println ("Hit return to exit.");
 		while (true) {
@@ -84,9 +39,7 @@ public class SearchCmd {
 			} 
 			else{ 
 				Searcher.exists(l, name);
-
 			}
-
 		}
 	}
 }
