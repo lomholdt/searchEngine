@@ -1,12 +1,14 @@
-
-
 import java.io.*;
 
 /**
  * HashTable class can create an array of HMTLlist pointers
- * with words indexed using a hash function. 
+ * with words indexed using a hash method. 
+ * 
+ * @author Niels, Mikkel, Jonas, Jonas
+ * @version 4.0
  */
 public class HashTable {
+	
 	/* Constants */
 	private static final int ARRAY_SIZE = 5000000;
 	private static final String PREFIX_STRING = "*PAGE:";
@@ -164,5 +166,3 @@ public class HashTable {
 		return HASH_TABLE;
 	}
 }
-
-

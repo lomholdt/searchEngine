@@ -1,8 +1,7 @@
-
 /**
  * This is the HTMLlist node object 
- * @author Lomholdt
- *
+ * @author Niels, Mikkel, Jonas, Jonas
+ * @version 4.0
  */
 public class HTMLlist {
     String word;
@@ -11,8 +10,10 @@ public class HTMLlist {
     
     /**
      * The HTMLlist node constructor
-     * @param s
-     * @param n
+     * 
+     * @param w the word to store
+     * @param u pointer to the next URLlist node
+     * @param n pointer to the next HTMLlist node
      */
     HTMLlist (String w, URLlist u, HTMLlist n) {
         word = w;
