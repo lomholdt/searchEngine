@@ -1,15 +1,11 @@
-
 import java.io.*;
 
 /**
  * The Searcher class contains several methods for creating
  * a linked list and searching through it.
  * 
- * @author dawartz
- * @author tonny
- * @author buchvart
- * @author lomholdt
- * @version 0.1
+ * @author Niels, Mikkel, Jonas, Jonas
+ * @version 3.0
  */
 public class Searcher {
 	
@@ -117,49 +113,12 @@ public class Searcher {
     		l = l.next;
     	}
     }
-
-
-    
     
     /**
-     * The readHtmlList method
+     * The new readHtmlList method, creates a linked list of HTMLlist objects, 
+     * that includes URLlist objects to store the URLs.
      * 
-     * @param filename
-     * @return a HTMLlist with the start pointer to the linked list
-     * @throws IOException
-     */
-    /** =================================================================================
-//    public static HTMLlist readHtmlList(String filename) throws IOException {
-//        String word;
-//        HTMLlist start, current, tmp;
-//
-//        // Open the file given as argument
-//        BufferedReader infile = new BufferedReader(new FileReader (filename));
-//
-//        word = infile.readLine(); //Read the first line
-//        start = new HTMLlist(word, null);
-//        current = start;
-//        word = infile.readLine(); // Read the next line
-//        while(word != null) {    // Exit if there is none
-//            tmp = new HTMLlist(word, null);
-//            current.next = tmp;
-//            current = tmp;            // Update the linked list
-//            word = infile.readLine(); // Read the next line
-//        }
-//        infile.close(); // Close the file
-//
-//        return start;
-//    }
-    
-    =================================================================================*/
-    
-    
-    
-    
-    /**
-     * The new readHtmlList method
-     * 
-     * @param filename
+     * @param filename file to read
      * @return pointer to front of list
      * @throws IOException
      */
@@ -168,7 +127,6 @@ public class Searcher {
     	URLlist tmpUrl, endOfUrlList;
     	HTMLlist start, current, tmp, tmp2, endOfList;
     	
-    	//BufferedReader infile = new BufferedReader(new FileReader(filename)); // open the file
     	BufferedReader infile = new BufferedReader(new InputStreamReader(new FileInputStream(filename), "UTF-8")); // UTF-8 capable file reader
     	
     	line = infile.readLine(); // first line in file
@@ -215,40 +173,9 @@ public class Searcher {
     		line = infile.readLine();
     	}
     	infile.close();
-    
     	return start;
     }
-    
-    /**
-     * Returns a pointer to the last node in a HTMLlist
-     * 
-     * @param front
-     * @return pointer to last node in list
-     */
-    private static HTMLlist getEndOfList(HTMLlist front){
-    	HTMLlist previous = front;
-    	while(front != null){
-    		previous = front;
-    		front = front.next;
-    	}
-    	return previous;
-    }
-    
-    /**
-     * Returns a pointer to the last node in a URLlist
-     * 
-     * @param front pointer to front of list
-     * @return pointer to last node in list
-     */
-    public static URLlist getEndOfList(URLlist front){
-    	URLlist previous = front;
-    	while(front != null){
-    		previous = front;
-    		front = front.next;
-    	}
-    	return previous;
-    }
-    
+        
     /**
      * Returns a pointer to the first HTMLlist object with a matching word
      * 
