@@ -11,24 +11,6 @@ public class Searcher {
 	
 	/* Constants */
 	private static final String PREFIX_STRING = "*PAGE:";
-	
-	/**
-	 * The method traverses a HTMLlist and returns boolean true
-	 * if the word passed in is already present in the list.
-	 * 
-	 * @param l pointer to front of list
-	 * @param word the word to search for
-	 * @return If a given word exists in a list
-	 */
-    public static boolean exists(HTMLlist l, String word) {
-        while (l != null) {
-            if (l.word != null && l.word.equals(word)) {
-                return true;
-            }
-            l = l.next;
-        }
-        return false;
-    }
     
     /**
      * Finds the HTMLlist object that matches the word parameter if present
@@ -49,32 +31,14 @@ public class Searcher {
     	}
     	return previous;
     }
-
-    /**
-     * The method traverses a URLlist and returns boolean true
-     * if the URL passed in is already present in the list.
-     * 
-     * @param l pointer to front of list
-     * @param url the url to search for
-     * @return boolean true or false
-     */
-    public static boolean UrlExists(URLlist l, String url) {
-        while (l != null) {
-            if (l.url != null && l.url.equals(url)) {
-                return true;
-            }
-            l = l.next;
-        }
-        return false;
-    }
     
     /**
      * Finds the URLlist object that matches the url parameter if present
      * otherwise it returns the last object in the list.
      * 
-     * @param front
-     * @param url
-     * @return
+     * @param front the pointer to the front of the list
+     * @param url the url to search for
+     * @return returns the URLlist object
      */
     public static URLlist UrlListExists(URLlist front, String url) {
     	URLlist previous = front;
@@ -86,32 +50,6 @@ public class Searcher {
             front = front.next;
         }
         return previous;
-    }
-
-    /**
-     * The existsOnPage method loops over a HTMLlist and searches
-     * for the given PREFIX_STRING. If the prefix is found it is stored
-     * so whenever you find a word, it will print the URL to the terminal
-     * where the word was found, but only if the URL has not been printed before.
-     * 
-     * @param l a HTMLlist list node
-     * @param word a string word to search for
-     */
-    public static void existsOnPage(HTMLlist l, String word){
-    	String currentURL = "";
-    	boolean isUsed = false;
-    	
-    	while(l != null){
-    		if(l.word.startsWith(PREFIX_STRING)){
-    			currentURL = l.word.substring(PREFIX_STRING.length());
-    			isUsed = false;
-    		}
-    		else if(l.word.equals(word) && !isUsed){
-    			System.out.println("Exists on " + currentURL);
-    			isUsed = true;
-    		}
-    		l = l.next;
-    	}
     }
     
     /**
@@ -137,8 +75,7 @@ public class Searcher {
     	
     	while (line != null){ // while not end of file
     		if(line.startsWith(PREFIX_STRING)){ // it's a URL
-    			String url = line.substring(PREFIX_STRING.length()); // remove prefix from URL
-    			currentUrl = url;
+    			currentUrl = line.substring(PREFIX_STRING.length()); // remove prefix from URL
     		}
     		else{ //  it's a word
 				if (current.word == null){ // if first run
@@ -174,23 +111,6 @@ public class Searcher {
     	}
     	infile.close();
     	return start;
-    }
-        
-    /**
-     * Returns a pointer to the first HTMLlist object with a matching word
-     * 
-     * @param front pointer to front of list
-     * @param word the word to search for
-     * @return a pointer to the node with matching word
-     */
-    public static HTMLlist getListObjectPosition(HTMLlist front, String word){
-    	while(front != null){
-    		if (front.word.equals(word)){
-    			return front;
-    		}
-    		front = front.next;
-    	}
-    	return null;
     }
     
     /**
