@@ -1,22 +1,45 @@
-/* SearchCmd.java
-   Written by Rune Hansen
-   Updated by Alexandre Buisse <abui@itu.dk>
-*/
-
 import java.io.*;
 
+/**
+ * Original class by Rune Hansen, updated by Alexandre Buisse
+ * HMTLlist node object
+ * 
+ * @author Niels, Mikkel, Jonas, Jonas
+ * @version 1.0
+ */
 class HTMLlist {
     String str;
     HTMLlist next;
 
+    /**
+     * HTMLlist constructor
+     * 
+     * @param s
+     * @param n
+     */
     HTMLlist (String s, HTMLlist n) {
         str = s;
         next = n;
     }
 }
 
-class Searcher {
 
+/**
+ * Original Searcher class by Rune Hansen, updated Alexandre Fuisse
+ * 
+ * @author Jonas, Tonny, Mikkel, Niels
+ * @version 1.0
+ */
+class Searcher {
+	
+    /**
+     * Exists method takes a HTMLlist object and a string as parameters.
+     * The method compares HTMLlist.str with the string and returns true if they are equal.
+     * 
+     * @param l
+     * @param word
+     * @return
+     */
     public static boolean exists (HTMLlist l, String word) {
         while (l != null) {
             if (l.str.equals (word)) {
@@ -27,6 +50,13 @@ class Searcher {
         return false;
     }
 
+    /**
+     * Reads a file, and creates a linkedlist of it.
+     * 
+     * @param filename
+     * @return
+     * @throws IOException
+     */
     public static HTMLlist readHtmlList (String filename) throws IOException {
         String name;
         HTMLlist start, current, tmp;
@@ -50,8 +80,21 @@ class Searcher {
     }
 }
 
+/**
+ * The SearchCmd class containing the main method 
+ * to run the program. 
+ * 
+ * @author Niels, Mikkel, Jonas, Jonas
+ * @version 1.0
+ */
 public class SearchCmd {
 
+    /**
+     * The main method
+     * 
+     * @param args
+     * @throws IOException
+     */
     public static void main (String[] args) throws IOException {
         String name;
 
