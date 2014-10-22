@@ -25,7 +25,7 @@ class HTMLlist {
 
 
 /**
- * Original Searcher class by Rune Hansen, updated Alexandre Fuisse
+ * Original Searcher class by Rune Hansen, updated by Alexandre Fuisse
  * 
  * @author Jonas, Tonny, Mikkel, Niels
  * @version 1.0
