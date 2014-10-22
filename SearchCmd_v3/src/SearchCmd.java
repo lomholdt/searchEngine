@@ -37,7 +37,7 @@ public class SearchCmd {
 			System.out.print("Search for: ");
 			word = inuser.readLine(); // Read a line from the terminal
 			if (word == null || word.length() == 0) {
-				return;
+				return; // Returns from main method - thus terminating the program
 			}
 			else{
 				Searcher.getWordUrls(word, tmp);
