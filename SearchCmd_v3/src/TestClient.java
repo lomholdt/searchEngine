@@ -7,13 +7,13 @@
 public class TestClient {
 	
 	public static void main(String[] args){
-		URLlist a = new URLlist("url 1", null);
-		URLlist b = new URLlist("url 2", null); 
-		URLlist c = new URLlist("url 3", null);
-		
-		HTMLlist d = new HTMLlist("Aktuelt", a, null);
-		HTMLlist e = new HTMLlist("IT", b, null);
-		HTMLlist f = new HTMLlist("Universitet", c, null);
+//		URLlist a = new URLlist("url 1", null);
+//		URLlist b = new URLlist("url 2", null); 
+//		URLlist c = new URLlist("url 3", null);
+//		
+//		HTMLlist d = new HTMLlist("Aktuelt", a, null);
+//		HTMLlist e = new HTMLlist("IT", b, null);
+//		HTMLlist f = new HTMLlist("Universitet", c, null);
 		
 //		a.next = b;
 //		b.next = c;

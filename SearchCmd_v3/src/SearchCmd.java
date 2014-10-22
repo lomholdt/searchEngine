@@ -27,7 +27,7 @@ public class SearchCmd {
 		HTMLlist l = Searcher.readHtmlList(args[0]); // Read the file and create the linked list
 		long stopTime = System.currentTimeMillis(); // set a end time
 
-		// Ask for a word to search   
+		// Ask for a word to search
 		BufferedReader inuser = new BufferedReader(new InputStreamReader(System.in, "UTF-8")); // UTF-8 capable input reader
 
 		System.out.println("Hit return to exit.");
