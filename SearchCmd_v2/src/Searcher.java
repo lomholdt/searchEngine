@@ -22,16 +22,17 @@ class Searcher {
 	 * @param word a word to search for
 	 */
 	public static void exists(HTMLlist l, String word) {
-		boolean exist = false, wordExists = false;
+		boolean wordAlreadySeen = false;
+		boolean wordExists = false;
 		System.out.println("The word: " + word);
 		String url ="";
 		while (l != null) {
 			if(l.str.startsWith(PREFIX_URL)){
-				url = l.str.substring(6);
-				exist = false;
+				url = l.str.substring(PREFIX_URL.length());
+				wordAlreadySeen = false;
 			}
-			if (l.str.equals(word) && !exist) {
-				exist = true;
+			else if(l.str.equals(word) && !wordAlreadySeen) {
+				wordAlreadySeen = true;
 				wordExists = true;
 				System.out.println("Exist on page: " + url);
 			}
@@ -49,19 +50,19 @@ class Searcher {
 	 * @return pointer to front of list
 	 * @throws IOException
 	 */
-	public static HTMLlist readHtmlList (String filename) throws IOException {
+	public static HTMLlist readHtmlList(String filename) throws IOException {
 		String name;
 		HTMLlist start, current, tmp;
 
 		// Open the file given as argument
-		BufferedReader infile = new BufferedReader (new FileReader (filename));
+		BufferedReader infile = new BufferedReader(new FileReader (filename));
 
-		name = infile.readLine(); //Read the first line
-		start = new HTMLlist (name, null);
+		name = infile.readLine(); // Read the first line
+		start = new HTMLlist(name, null);
 		current = start;
 		name = infile.readLine(); // Read the next line
 		while (name != null) {    // Exit if there is none
-			tmp = new HTMLlist (name, null);
+			tmp = new HTMLlist(name, null);
 			current.next = tmp;
 			current = tmp;            // Update the linked list
 			name = infile.readLine(); // Read the next line
