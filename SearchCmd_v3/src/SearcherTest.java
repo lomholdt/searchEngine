@@ -7,15 +7,12 @@ import javax.swing.text.html.HTML;
 
 import org.junit.Test;
 
-
 public class SearcherTest {
 	
-	/**
-	 * 
+	/** 
 	 * When searching for a word, that exist in the list,
 	 * the method must return the corresponding HtmlList in the list,
 	 * that contains the word given as arg.
-	 * 
 	 */
 	@Test
 	public void testHtmlListExists1() {
@@ -32,11 +29,9 @@ public class SearcherTest {
 		}
 	}
 	
-	/**
-	 * 
+	/** 
 	 * When searching for a word, that does not exist in the list,
 	 * the method must return the last element in the list (next = null)
-	 * 
 	 */
 	@Test
 	public void testHtmlListExists2() {
@@ -53,11 +48,9 @@ public class SearcherTest {
 		}
 	}
 	
-	/**
-	 * 
+	/** 
 	 * When searching for an url, that does not exist in the list,
 	 * the method must return the last element in the list (Url.next = null)
-	 * 
 	 */
 	@Test
 	public void testUrlListExists1() {
@@ -75,8 +68,7 @@ public class SearcherTest {
 		}
 	}
 	
-	/**
-	 * 
+	/** 
 	 * When searching for a word, that exist in the list,
 	 * the method must return the corresponding URLlist in the list,
 	 * that contains the url given as arg. 
@@ -99,7 +91,6 @@ public class SearcherTest {
 	
 	
 	/**
-	 * 
 	 * Check if the first word contains an url
 	 * 
 	 * @throws IOException
@@ -124,7 +115,5 @@ public class SearcherTest {
 	public void testreadHtmlList2() throws IOException{
 		Searcher.readHtmlList("res/itcwww-none.txt"); // should not exist
 		fail("Should throw IOException");
-	}
-	
-	
+	}	
 }
