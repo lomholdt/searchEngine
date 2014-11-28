@@ -62,15 +62,13 @@ public class Searcher {
      */
     public static HTMLlist readHtmlList(String filename) throws IOException{
     	String line, currentUrl;
-    	URLlist tmpUrl, endOfUrlList;
-    	HTMLlist start, current, tmp, tmp2, endOfList;
+    	HTMLlist start, activeNode;
     	
     	BufferedReader infile = new BufferedReader(new InputStreamReader(new FileInputStream(filename), "UTF-8")); // UTF-8 capable file reader
     	
     	line = infile.readLine(); // first line in file
     	
     	start = new HTMLlist(null, null, null); // first node pointer
-    	current = start;
     	currentUrl = "";
     	
     	while (line != null){ // while not end of file
@@ -78,32 +76,22 @@ public class Searcher {
     			currentUrl = line.substring(PREFIX_STRING.length()); // remove prefix from URL
     		}
     		else{ //  it's a word
-				if (current.word == null){ // if first run
-					current.word = line;
-					current.urls = new URLlist(currentUrl, null);
+				if (start.word == null){ // if first run
+					start.word = line;
+					start.urls = new URLlist(currentUrl, null);
 				}
-    			tmp = start; // use temp as start pointer
-    			tmp2 = HtmlListExists(tmp, line);
+				
+    			activeNode = HtmlListExists(start, line);
     			
-    			if(!tmp2.word.equals(line)){ // it has not been seen before
+    			if(!activeNode.word.equals(line)){ // it has not been seen before
     				// ADD HTMLList
-					endOfList = tmp2;
-					tmpUrl = new URLlist(currentUrl, null);
-					// Add current to end of list
-					tmp = new HTMLlist(line, tmpUrl, null);
-					endOfList.next = tmp;
-					current = tmp;
+					activeNode.next = new HTMLlist(line, new URLlist(currentUrl, null), null);
     			}
     			else{ // it has been seen
-    				// go to HTMLlist object with the word
-    				current = tmp2;
-    				tmpUrl = UrlListExists(current.urls, currentUrl);
-    				if (!tmpUrl.url.equals(currentUrl)){ // if URL is not already added to the word
-    					// go to end of URL list
-    					endOfUrlList = tmpUrl; // maybe remove and pull together with last line
-    					
+    				URLlist activeUrlNode = UrlListExists(activeNode.urls, currentUrl);
+    				if (!activeUrlNode.url.equals(currentUrl)){ // if URL is not already added to the word
     					// add url to the list
-    					endOfUrlList.next = new URLlist(currentUrl, null);
+    					activeUrlNode.next = new URLlist(currentUrl, null);
     				}
     			}
     		}
