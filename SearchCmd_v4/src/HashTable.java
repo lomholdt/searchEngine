@@ -126,7 +126,7 @@ public class HashTable {
 	public static HTMLlist[] createArray(String filename) throws IOException{
 		String line, currentUrl;
 		URLlist tmpUrl;
-		HTMLlist front, tmpHtml; 
+		HTMLlist tmpHtml; 
 		int wordIndex;
 		
 		BufferedReader infile = new BufferedReader(new InputStreamReader(new FileInputStream(filename), "UTF-8")); // UTF-8 capable file reader
@@ -146,7 +146,7 @@ public class HashTable {
 					wordCount++;
 				}
 				else{ // index is not empty
-					front = HASH_TABLE[wordIndex];
+					HTMLlist front = HASH_TABLE[wordIndex];
 					tmpHtml = Searcher.HtmlListExists(front, line);
 					if (!tmpHtml.word.equals(line)){ // it's a new word (not already present), append to back of list
 						appendToHtmlList(line, currentUrl, tmpHtml);
