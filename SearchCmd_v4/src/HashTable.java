@@ -8,17 +8,17 @@ import java.io.*;
  * @version 4.0
  */
 public class HashTable {
-	
+
 	/* Constants */
 	private static final int ARRAY_SIZE = 5000000;
 	private static final String PREFIX_STRING = "*PAGE:";
-	
+
 	/* Data fields */
 	private static int wordCount;
 	private static int urlCount;
 	private static int arrayCount;
 	private static HTMLlist[] HASH_TABLE = new HTMLlist[ARRAY_SIZE];
-	
+
 	/**
 	 * Retrieves the calculated index for the word
 	 * 
@@ -28,7 +28,7 @@ public class HashTable {
 	public static int getWordIndex(String word){
 		return Math.abs(word.hashCode()) % ARRAY_SIZE;
 	}
-	
+
 	/**
 	 * Returns how many unique words are in the array
 	 * 
@@ -37,7 +37,7 @@ public class HashTable {
 	public static int getWordCount(){
 		return wordCount;
 	}
-	
+
 	/**
 	 * Returns how many unique urls are in the array
 	 * 
@@ -46,7 +46,7 @@ public class HashTable {
 	public static int getUrlCount(){
 		return urlCount;
 	}
-	
+
 	/**
 	 * Returns how many elements are stored in the array
 	 * 
@@ -55,7 +55,7 @@ public class HashTable {
 	public static int getArrayCount(){
 		return arrayCount;
 	}
-	
+
 	/**
 	 * Returns the load factor for the array/table
 	 * 
@@ -64,7 +64,7 @@ public class HashTable {
 	public static double getLoadFactor(){
 		return (double)getArrayCount() / (double)ARRAY_SIZE;
 	}
-	
+
 	/**
 	 * Returns the initialized size of the array
 	 * 
@@ -73,7 +73,7 @@ public class HashTable {
 	public static int getArraySize(){
 		return ARRAY_SIZE;
 	}
-	
+
 	/**
 	 * Appends a HTMLlist object to the element
 	 * passed in, which should be the last element 
@@ -87,7 +87,7 @@ public class HashTable {
 		URLlist tmpUrl = new URLlist(url, null);
 		lastElementInList.next = new HTMLlist(word, tmpUrl, null);
 	}
-	
+
 	/**
 	 * Appends a URLlist object to the element
 	 * passed in, which should be the last element 
@@ -99,7 +99,7 @@ public class HashTable {
 	private static void appendToUrlList(String url, URLlist lastElementInList){
 		lastElementInList.next = new URLlist(url, null);
 	}
-	
+
 	/**
 	 * Adds a HTMLlist object to the array at the given index
 	 * with the given word and URL.
@@ -113,7 +113,7 @@ public class HashTable {
 		HTMLlist tmpHtml = new HTMLlist(word, tmpUrl, null);
 		HASH_TABLE[index] = tmpHtml;
 	}
-	
+
 	/**
 	 * Creates an HTMLlist array with pointers to the words
 	 * that has been indexed. Uses getWordIndex hash function
@@ -128,11 +128,11 @@ public class HashTable {
 		URLlist tmpUrl;
 		HTMLlist tmpHtml; 
 		int wordIndex;
-		
+
 		BufferedReader infile = new BufferedReader(new InputStreamReader(new FileInputStream(filename), "UTF-8")); // UTF-8 capable file reader
 		line = infile.readLine(); // read first line
 		currentUrl = "";
-		
+
 		while (line != null){ // loop over each line in file
 			if(line.startsWith(PREFIX_STRING)){ // it's a URL
 				currentUrl = line.substring(PREFIX_STRING.length()); // remove prefix from URL
@@ -153,9 +153,13 @@ public class HashTable {
 						wordCount++;
 					}
 					else{ // word is already in list
-						tmpUrl = Searcher.UrlListExists(tmpHtml.urls, currentUrl); // check if url exist in urls
-						if (!tmpUrl.url.equals(currentUrl)){ // if url is not already there
-							appendToUrlList(currentUrl, tmpUrl);
+						//tmpUrl = Searcher.UrlListExists(tmpHtml.urls, currentUrl); // check if url exist in urls
+						//if (!tmpUrl.url.equals(currentUrl)){ // if url is not already there
+						//appendToUrlList(currentUrl, tmpUrl);
+
+						if(!tmpHtml.urls.url.equals(currentUrl)){
+							URLlist tmpUrl2 = new URLlist(currentUrl, tmpHtml.urls);
+							tmpHtml.urls = tmpUrl2;
 						}
 					}
 				}

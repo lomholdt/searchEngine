@@ -88,10 +88,13 @@ public class Searcher {
 					activeNode.next = new HTMLlist(line, new URLlist(currentUrl, null), null);
     			}
     			else{ // it has been seen
-    				URLlist activeUrlNode = UrlListExists(activeNode.urls, currentUrl);
-    				if (!activeUrlNode.url.equals(currentUrl)){ // if URL is not already added to the word
-    					// add url to the list
-    					activeUrlNode.next = new URLlist(currentUrl, null);
+    				//URLlist activeUrlNode = UrlListExists(activeNode.urls, currentUrl);
+    				//if (!activeUrlNode.url.equals(currentUrl)){ // if URL is not already added to the word
+    					 //add url to the list
+    					//activeUrlNode.next = new URLlist(currentUrl, null);
+    				if(!activeNode.urls.url.equals(currentUrl)){
+						URLlist tmpUrl2 = new URLlist(currentUrl, activeNode.urls);
+						activeNode.urls = tmpUrl2;
     				}
     			}
     		}
