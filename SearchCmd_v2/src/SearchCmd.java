@@ -25,13 +25,16 @@ public class SearchCmd {
 		}
 
 		// Read the file and create the linked list
+		long start = System.currentTimeMillis();
 		HTMLlist l = Searcher.readHtmlList(args[0]);
+		long end = System.currentTimeMillis();	
 
 		// Ask for a word to search
 		BufferedReader inuser = new BufferedReader(new InputStreamReader(System.in));
 
 		System.out.println("Hit return to exit.");
 		while (true) {
+			System.out.println("Load time: " + (end - start));
 			System.out.print("Search for: ");
 			name = inuser.readLine(); // Read a line from the terminal
 			if (name == null || name.length() == 0) {
